@@ -7,6 +7,7 @@ import game_framework
 import game_world
 
 import server
+from ball import Ball
 from boy import Boy
 
 # fill here
@@ -34,6 +35,14 @@ def init():
     game_world.add_object(server.background, 0)
     server.boy = Boy()
     game_world.add_object(server.boy, 1)
+
+    global balls
+    balls = [ Ball(random.randint(250, 1550), random.randint(300, 900)) for _ in range(100)]
+    game_world.add_objects(balls, 1)
+
+    game_world.add_collision_pair('boy:ball', server.boy, None)
+    for ball in balls:
+        game_world.add_collision_pair('boy:ball', None, ball)
 
 def finish():
     game_world.clear()
